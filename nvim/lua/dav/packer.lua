@@ -17,15 +17,15 @@ return require('packer').startup(function(use)
 	  "loctvl842/monokai-pro.nvim",
 	  config = function()
 		  require("monokai-pro").setup({
-			  overrideScheme = function(cs, p, config, hp)
-			   local cs_override = {}
-			   local calc_bg = hp.blend(p.background, 0.75, '#000000')
-
-			   cs_override.editor = {
-			    background = calc_bg,
-			   }
-			   return cs_override
-			  end
+			  -- overrideScheme = function(cs, p, config, hp)
+			  --  local cs_override = {}
+			  --  local calc_bg = hp.blend(p.background, 0.75, '#000000')
+			  --
+			  --  cs_override.editor = {
+			  --   background = calc_bg,
+			  --  }
+			  --  return cs_override
+			  -- end
 		  })
 		  vim.cmd([[colorscheme monokai-pro]])
 	  end
@@ -33,4 +33,26 @@ return require('packer').startup(function(use)
 
   use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use('nvim-treesitter/playground')
+
+  use {
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v3.x',
+      requires = {
+          --- Uncomment the two plugins below if you want to manage the language servers from neovim
+          {'williamboman/mason.nvim'},
+          {'williamboman/mason-lspconfig.nvim'},
+
+          {'neovim/nvim-lspconfig'},
+          {'hrsh7th/nvim-cmp'},
+          {'hrsh7th/cmp-nvim-lsp'},
+          {'L3MON4D3/LuaSnip'},
+      }
+  }
+
+  use({
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+          require("lsp_lines").setup()
+      end,
+  })
 end)
