@@ -31,9 +31,10 @@ return require('packer').startup(function(use)
 			  --  return cs_override
 			  -- end
 		  })
-		  vim.cmd([[colorscheme monokai-pro]])
 	  end
   })
+
+  use 'iagorrr/noctishc.nvim'
 
   use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use('nvim-treesitter/playground')

@@ -1,2 +1,1 @@
 require("dav")
-print("Hello")

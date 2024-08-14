@@ -105,10 +105,15 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason.nvim"
   },
   ["monokai-pro.nvim"] = {
-    config = { "\27LJ\2\nm\0\0\3\0\6\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\3\0009\0\4\0'\2\5\0B\0\2\1K\0\1\0\28colorscheme monokai-pro\bcmd\bvim\nsetup\16monokai-pro\frequire\0" },
+    config = { "\27LJ\2\n=\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\16monokai-pro\frequire\0" },
     loaded = true,
     path = "/Users/david/.local/share/nvim/site/pack/packer/start/monokai-pro.nvim",
     url = "https://github.com/loctvl842/monokai-pro.nvim"
+  },
+  ["noctishc.nvim"] = {
+    loaded = true,
+    path = "/Users/david/.local/share/nvim/site/pack/packer/start/noctishc.nvim",
+    url = "https://github.com/iagorrr/noctishc.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -150,7 +155,7 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Config for: monokai-pro.nvim
 time([[Config for monokai-pro.nvim]], true)
-try_loadstring("\27LJ\2\nm\0\0\3\0\6\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\3\0009\0\4\0'\2\5\0B\0\2\1K\0\1\0\28colorscheme monokai-pro\bcmd\bvim\nsetup\16monokai-pro\frequire\0", "config", "monokai-pro.nvim")
+try_loadstring("\27LJ\2\n=\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\16monokai-pro\frequire\0", "config", "monokai-pro.nvim")
 time([[Config for monokai-pro.nvim]], false)
 
 _G._packer.inside_compile = false
