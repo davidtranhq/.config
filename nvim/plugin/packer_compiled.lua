@@ -84,16 +84,15 @@ _G.packer_plugins = {
     path = "/Users/david/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["fzf-lua"] = {
+    loaded = true,
+    path = "/Users/david/.local/share/nvim/site/pack/packer/start/fzf-lua",
+    url = "https://github.com/ibhagwan/fzf-lua"
+  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/Users/david/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
-  },
-  ["lsp_lines.nvim"] = {
-    config = { "\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14lsp_lines\frequire\0" },
-    loaded = true,
-    path = "/Users/david/.local/share/nvim/site/pack/packer/start/lsp_lines.nvim",
-    url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -149,10 +148,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: lsp_lines.nvim
-time([[Config for lsp_lines.nvim]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14lsp_lines\frequire\0", "config", "lsp_lines.nvim")
-time([[Config for lsp_lines.nvim]], false)
 -- Config for: monokai-pro.nvim
 time([[Config for monokai-pro.nvim]], true)
 try_loadstring("\27LJ\2\nm\0\0\3\0\6\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\3\0009\0\4\0'\2\5\0B\0\2\1K\0\1\0\28colorscheme monokai-pro\bcmd\bvim\nsetup\16monokai-pro\frequire\0", "config", "monokai-pro.nvim")

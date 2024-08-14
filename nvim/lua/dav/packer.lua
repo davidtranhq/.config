@@ -13,6 +13,10 @@ return require('packer').startup(function(use)
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  use { 
+      "ibhagwan/fzf-lua",
+  }
+
   use ({
 	  "loctvl842/monokai-pro.nvim",
 	  config = function()
@@ -48,11 +52,4 @@ return require('packer').startup(function(use)
           {'L3MON4D3/LuaSnip'},
       }
   }
-
-  use({
-      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-      config = function()
-          require("lsp_lines").setup()
-      end,
-  })
 end)
