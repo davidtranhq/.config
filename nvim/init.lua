@@ -1,6 +1,8 @@
 vim.opt.number = true
 vim.g.mapleader = "\\"
 vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
 -- Install lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
