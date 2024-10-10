@@ -6,6 +6,7 @@ Includes:
     * Use `:Copilot setup` to setup Copilot
 * High-contrast dark theme (`iagorrr/noctishc.nvim`)
 * Fuzzy finder (`fzf`)
+* Treesitter (`nvim-treesitter`)
 
 ## Installation
 

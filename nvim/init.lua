@@ -1,6 +1,7 @@
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.number = true
+vim.g.mapleader = "\\"
 
 -- Install lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"                                        
@@ -24,6 +25,20 @@ require('lazy').setup({
 	{"ibhagwan/fzf-lua"},
 	{"github/copilot.vim"},
 	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function ()
+			local configs = require("nvim-treesitter.configs")
+
+			configs.setup({
+				ensure_installed = { "c", "cpp", "python"},
+				sync_install = false,
+				highlight = { enable = true },
+				indent = { enable = true },
+			})
+		end
+	},
+	{
 		"dundalek/lazy-lsp.nvim",
 		dependencies = {
 			"neovim/nvim-lspconfig",
@@ -34,18 +49,45 @@ require('lazy').setup({
 		config = function()
 			local lsp_zero = require("lsp-zero")
 
-			lsp_zero.on_attach(function(client, bufnr)
-				-- see :help lsp-zero-keybindings to learn the available actions
-				lsp_zero.default_keymaps({
-					buffer = bufnr,
-					preserve_mappings = false
-				})
-			end)
+			lsp_zero.extend_lspconfig({
+				sign_text = true, -- show diagnostic signs in the text buffer
+				lsp_attach = function(client, buffer_no)
+					lsp_zero.default_keymaps({
+						buffer = buffer_no,
+						preserve_mappings = false -- override existing keybindings
+					})
+				end,
+				capabilities = require("cmp_nvim_lsp").default_capabilities()
+			})
 
-			require("lazy-lsp").setup {}
+			-- Autocompletion setup
+			local cmp = require("cmp")
+			cmp.setup({
+				sources = {
+					{name = 'nvim_lsp'},
+				},
+				snippet = {
+					expand = function(args)
+						-- Require Neovim v0.10
+						vim.snippet.expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert({}),
+			})
+
+			require("lazy-lsp").setup {
+				excluded_servers = { "ccls", "sourcekit" } -- avoid loading duplicates to clangd server
+			}
 		end,
 	},
 })
 
-vim.cmd('colorscheme noctishc')
+vim.cmd.colorscheme('noctishc')
+-- Override comment colors to make it easier to read
+vim.api.nvim_set_hl(0, "Comment", { fg = "#999999", italic = true })
+vim.api.nvim_set_hl(0, "@comment", { link = "Comment"})
+
 vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
+vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>lg', '<cmd>lua require("fzf-lua").live_grep()<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>e', ':Explore<CR>', { noremap = true, silent = true })
