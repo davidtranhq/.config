@@ -45,6 +45,7 @@ require('lazy').setup({
 			{"VonHeikemen/lsp-zero.nvim", branch = "v4.x"},
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/nvim-cmp",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")
@@ -65,6 +66,7 @@ require('lazy').setup({
 			cmp.setup({
 				sources = {
 					{name = 'nvim_lsp'},
+					{name = 'nvim_lsp_signature_help'},
 				},
 				snippet = {
 					expand = function(args)
