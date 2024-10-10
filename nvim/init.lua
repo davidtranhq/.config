@@ -1,87 +1,103 @@
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.g.mapleader = "\\"
+vim.opt.expandtab = true
 
 -- Install lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"                                        
-if not vim.uv.fs_stat(lazypath) then                                                                
-	print("Installing lazy.nvim")                                                                     
-	vim.fn.system({                                                                                   
-		"git",                                                                                          
-		"clone",                                                                                        
-		"--filter=blob:none",                                                                           
-		"https://github.com/folke/lazy.nvim.git",                                                       
-		"--branch=stable", -- latest stable release                                                     
-		lazypath,                                                                                       
-	})                                                                                                
-	print("Done")                                                                                     
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  print("Installing lazy.nvim")
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+  print("Done")
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
 require('lazy').setup({
-	{"iagorrr/noctishc.nvim"},
-	{"ibhagwan/fzf-lua"},
-	{"github/copilot.vim"},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function ()
-			local configs = require("nvim-treesitter.configs")
+  {"iagorrr/noctishc.nvim"},
+  {"ibhagwan/fzf-lua"},
+  {"github/copilot.vim"},
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function ()
+      local configs = require("nvim-treesitter.configs")
 
-			configs.setup({
-				ensure_installed = { "c", "cpp", "python"},
-				sync_install = false,
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
-		end
-	},
-	{
-		"dundalek/lazy-lsp.nvim",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-			{"VonHeikemen/lsp-zero.nvim", branch = "v4.x"},
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/nvim-cmp",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-		},
-		config = function()
-			local lsp_zero = require("lsp-zero")
+      configs.setup({
+        ensure_installed = { "c", "cpp", "python"},
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+      })
+    end
+  },
+  {
+    "dundalek/lazy-lsp.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      {"VonHeikemen/lsp-zero.nvim", branch = "v4.x"},
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    },
+    config = function()
+      local lsp_zero = require("lsp-zero")
 
-			lsp_zero.extend_lspconfig({
-				sign_text = true, -- show diagnostic signs in the text buffer
-				lsp_attach = function(client, buffer_no)
-					lsp_zero.default_keymaps({
-						buffer = buffer_no,
-						preserve_mappings = false -- override existing keybindings
-					})
-				end,
-				capabilities = require("cmp_nvim_lsp").default_capabilities()
-			})
+      lsp_zero.extend_lspconfig({
+        sign_text = true, -- show diagnostic signs in the text buffer
+        lsp_attach = function(client, buffer_no)
+          lsp_zero.default_keymaps({
+            buffer = buffer_no,
+            preserve_mappings = false -- override existing keybindings
+          })
+        end,
+        capabilities = require("cmp_nvim_lsp").default_capabilities()
+      })
 
-			-- Autocompletion setup
-			local cmp = require("cmp")
-			cmp.setup({
-				sources = {
-					{name = 'nvim_lsp'},
-					{name = 'nvim_lsp_signature_help'},
-				},
-				snippet = {
-					expand = function(args)
-						-- Require Neovim v0.10
-						vim.snippet.expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({}),
-			})
+      -- Autocompletion setup
+      local cmp = require("cmp")
+      cmp.setup({
+        sources = {
+          {name = 'nvim_lsp'},
+          {name = 'nvim_lsp_signature_help'},
+        },
+        snippet = {
+          expand = function(args)
+            -- Require Neovim v0.10
+            vim.snippet.expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({}),
+      })
 
-			require("lazy-lsp").setup {
-				excluded_servers = { "ccls", "sourcekit" } -- avoid loading duplicates to clangd server
-			}
-		end,
-	},
+      require("lsp_lines").setup()
+      -- Regular virtual text diagnostics are redundant with lsp_lines
+      vim.diagnostic.config({ virtual_text = false })
+      require("lazy-lsp").setup {
+        excluded_servers = { "ccls", "sourcekit" }, -- avoid loading duplicates to clangd server
+        -- Language-specific configurations
+        -- Use :LspInfo to see which server is being used for a buffer
+        configs = {
+          lua_ls = {
+            settings = {
+              Lua = {
+                diagnostics = {
+                  globals = { 'vim' },
+                },
+              },
+            },
+          },
+        }
+      }
+    end,
+  },
 })
 
 vim.cmd.colorscheme('noctishc')
