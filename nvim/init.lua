@@ -1,8 +1,4 @@
-vim.opt.number = true
-vim.g.mapleader = "\\"
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+require('config')
 
 -- Install lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -25,6 +21,8 @@ require('lazy').setup({
   {"iagorrr/noctishc.nvim"},
   {"ibhagwan/fzf-lua"},
   {"github/copilot.vim"},
+  {"sindrets/diffview.nvim"},
+  {"tpope/vim-fugitive"},
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -86,7 +84,11 @@ require('lazy').setup({
         excluded_servers = { "ccls", "sourcekit" }, -- avoid loading duplicates to clangd server
         -- Language-specific configurations
         -- Use :LspInfo to see which server is being used for a buffer
+        -- Use :help lspconfig-all to see config options for each server
         configs = {
+          clangd = {
+            cmd = { "clangd", "--background-index", "--clang-tidy" },
+          },
           lua_ls = {
             settings = {
               Lua = {
@@ -108,6 +110,7 @@ vim.api.nvim_set_hl(0, "Comment", { fg = "#999999", italic = true })
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment"})
 
 vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
+vim.keymap.set('n', '<leader>cd', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>lg', '<cmd>lua require("fzf-lua").live_grep()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>e', ':Explore<CR>', { noremap = true, silent = true })

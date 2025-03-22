@@ -1,0 +1,15 @@
+:q
+q
+:t ((-) . abs)
+:t abs
+:t (-)
+:t (abs . (-))
+:t map ($) [[Int] -> [Int] -> Int, [Int] -> [Int] -> Int]
+:t map ($) [f :: [Int] -> [Int] -> Int, g :: [Int] -> [Int] -> Int]]
+:t map ($) [f :: [Int] -> [Int] -> Int, g :: [Int] -> [Int] -> Int]
+:t map ($) [(+), (-)]
+:t map map
+:t map ($) [1, 2]
+:t 1
+:t a
+:t
