@@ -108,6 +108,8 @@ vim.cmd.colorscheme('noctishc')
 -- Override comment colors to make it easier to read
 vim.api.nvim_set_hl(0, "Comment", { fg = "#999999", italic = true })
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment"})
+vim.o.relativenumber = true
+vim.o.number = true
 
 vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
 vim.keymap.set('n', '<leader>cd', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
